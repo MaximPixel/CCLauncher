@@ -1,8 +1,12 @@
 local VERSION_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/version.txt"
 local LAUNCHER_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/launcher.lua"
-local CURRENT_VERSION = 6
+local CURRENT_VERSION = 7
 
 data = http.get(VERSION_DIR)
+
+function createButton(x, y, w, h)
+	return {x = x, y = y, w = w, h = h}
+end
 
 function getLatestVersion()
 	data = http.get(VERSION_DIR)
@@ -85,7 +89,6 @@ while run do
 					downloadLatest()
 				end
 			end
-			
 			relauch = true
 		end
 	end
