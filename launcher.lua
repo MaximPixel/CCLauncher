@@ -1,6 +1,6 @@
 local VERSION_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/version.txt"
 local LAUNCHER_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/launcher.lua"
-local CURRENT_VERSION = 2
+local CURRENT_VERSION = 3
 
 data = http.get(VERSION_DIR)
 
@@ -59,6 +59,7 @@ end
 
 run = true
 dirty = true
+relauch = false
 
 while run do
 	if dirty then
@@ -68,16 +69,25 @@ while run do
 	local e, k = os.pullEvent("key")
 	
 	if k == keys.q then
-	run = false
+		run = false
+	end
+	if k == keys.e then
+		run = false
+		
+		latestVersion = getLatestVersion()
+		
+		if latestVersion >= 0 then
+			if latestVersion > CURRENT_VERSION then
+				downloadLatest()
+			end
+		end
+		
+		relauch = true
 	end
 end
 
 clearAll()
 
---[[latestVersion = getLatestVersion()
-
-if latestVersion >= 0 then
-	if latestVersion > CURRENT_VERSION then
-		downloadLatest()
-	end
-end]]
+if relauch then
+	shell.run("launcher.lua")
+end
