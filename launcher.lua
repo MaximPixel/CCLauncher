@@ -1,6 +1,6 @@
 local VERSION_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/version.txt"
 local LAUNCHER_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/launcher.lua"
-local CURRENT_VERSION = 1
+local CURRENT_VERSION = 2
 
 data = http.get(VERSION_DIR)
 
@@ -39,10 +39,45 @@ function downloadLatest()
 	return false
 end
 
-latestVersion = getLatestVersion()
+function cc(c1, c2)
+	term.setTextColor(c1)
+	term.setBackgroundColor(c2)
+end
+
+function clearAll()
+	cc(colors.white, colors.black)
+	term.clear()
+end
+
+function gui()
+	clearAll()
+	
+	term.setCursorPos(2, 2)
+	cc(colors.black, colors.green)
+	term.write("Update")
+end
+
+run = true
+dirty = true
+
+while run do
+	if dirty then
+		gui()
+	end
+	
+	local e, k = os.pullEvent("key")
+	
+	if k == keys.q then
+	run = false
+	end
+end
+
+clearAll()
+
+--[[latestVersion = getLatestVersion()
 
 if latestVersion >= 0 then
 	if latestVersion > CURRENT_VERSION then
 		downloadLatest()
 	end
-end
+end]]
