@@ -1,6 +1,6 @@
 local VERSION_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/version.txt"
 local LAUNCHER_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/launcher.lua"
-local CURRENT_VERSION = 5
+local CURRENT_VERSION = 6
 
 data = http.get(VERSION_DIR)
 
@@ -35,6 +35,7 @@ function downloadLatest()
 			file.close()
 			print("Updated!")
 		end
+		data.close()
 	end
 	return false
 end
