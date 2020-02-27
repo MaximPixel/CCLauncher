@@ -1,6 +1,6 @@
 local VERSION_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/version.txt"
 local LAUNCHER_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/launcher.lua"
-local CURRENT_VERSION = 3
+local CURRENT_VERSION = 5
 
 data = http.get(VERSION_DIR)
 
@@ -47,14 +47,15 @@ end
 function clearAll()
 	cc(colors.white, colors.black)
 	term.clear()
+	term.setCursorPos(1, 1)
 end
 
 function gui()
 	clearAll()
 	
+	cc(colors.black, colors.white)
 	term.setCursorPos(2, 2)
-	cc(colors.black, colors.green)
-	term.write("Update")
+	term.write("Press E to upgrade")
 end
 
 run = true
@@ -64,29 +65,34 @@ relauch = false
 while run do
 	if dirty then
 		gui()
+		dirty = false
 	end
 	
-	local e, k = os.pullEvent("key")
+	local e, k = os.pullEvent()
 	
-	if k == keys.q then
-		run = false
-	end
-	if k == keys.e then
-		run = false
-		
-		latestVersion = getLatestVersion()
-		
-		if latestVersion >= 0 then
-			if latestVersion > CURRENT_VERSION then
-				downloadLatest()
-			end
+	if e = "key" then
+		if k == keys.q then
+			run = false
 		end
-		
-		relauch = true
+		if k == keys.e then
+			run = false
+			
+			latestVersion = getLatestVersion()
+			
+			if latestVersion >= 0 then
+				if latestVersion > CURRENT_VERSION then
+					downloadLatest()
+				end
+			end
+			
+			relauch = true
+		end
 	end
 end
 
 clearAll()
+
+os.sleep(0)
 
 if relauch then
 	shell.run("launcher.lua")
