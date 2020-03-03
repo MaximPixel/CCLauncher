@@ -1,11 +1,28 @@
 local VERSION_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/version.txt"
 local LAUNCHER_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/launcher.lua"
-local CURRENT_VERSION = 7
+local CURRENT_VERSION = 8
 
 data = http.get(VERSION_DIR)
 
+function drawButton(self)
+	term.setCursorPos(self.x, self.y)
+	if self.text then
+		term.write(self.text)
+	else
+		--TODO
+	end
+end
+
 function createButton(x, y, w, h)
-	return {x = x, y = y, w = w, h = h}
+	newBtn = {x = x, y = y, w = w, h = h}
+	newBtn.draw = drawButton
+	return newBtn
+end
+
+function createButtonText(x, y, text)
+	newBtn = createButton(x, y, #text, 1)
+	newBtn.text = text
+	return newBtn
 end
 
 function getLatestVersion()
@@ -55,12 +72,13 @@ function clearAll()
 	term.setCursorPos(1, 1)
 end
 
+but = createButtonText(2, 2, "Update")
+
 function gui()
 	clearAll()
 	
 	cc(colors.black, colors.white)
-	term.setCursorPos(2, 2)
-	term.write("Press E to upgrade")
+	but.draw()
 end
 
 run = true
