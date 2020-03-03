@@ -5,7 +5,7 @@ filesData = http.get(FILES_DIR)
 if filesData then
 	filesText = filesData.readAll()
 	if filesText then
-		filesList = text.unserialise(filesText)
+		filesList = textutils.unserialise(filesText)
 		if filesList then
 			print(filesList.version)
 			
