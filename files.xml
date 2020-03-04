@@ -1,7 +1,13 @@
 {
 	version = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/version.txt",
 	files = {
-		"https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/launcher.lua",
-		"https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/installer.lua",
+		{
+			file = "launcher.lua",
+			link = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/",
+		},
+		{
+			file = "installer.lua",
+			link = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/",
+		},
 	},
 }
