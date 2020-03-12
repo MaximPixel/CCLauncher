@@ -1,6 +1,6 @@
 local VERSION_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/version.txt"
 local LAUNCHER_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/launcher.lua"
-local CURRENT_VERSION = 10
+local CURRENT_VERSION = 11
 
 data = http.get(VERSION_DIR)
 
@@ -30,6 +30,7 @@ function getLatestVersion()
 
 	if data then
 		text = data.readAll()
+		data.close()
 		if text then
 			version = tonumber(text)
 			if version then
@@ -40,7 +41,6 @@ function getLatestVersion()
 		else
 			return -1
 		end
-		data.close()
 	end
 	return -1
 end
@@ -50,6 +50,7 @@ function downloadLatest()
 	
 	if data then
 		text = data.readAll()
+		data.close()
 		if text then
 			file = fs.open("launcher.lua", "w")
 			file.write(text)

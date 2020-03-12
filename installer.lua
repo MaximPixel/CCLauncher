@@ -2,13 +2,13 @@ local FILES_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/maste
 
 function readVersion(dir)
 	versionData = http.get(dir)
+	versionData.close()
 	if versionData then
 		data = versionData.readAll()
 		version = tonumber(data)
 		if version then
 			return version
 		end
-		versionData.close()
 	end
 	return nil
 end
@@ -18,6 +18,7 @@ function getFilesData()
 	
 	if filesData then
 		filesText = filesData.readAll()
+		filesData.close()
 		if filesText then
 				filesList = textutils.unserialise(filesText)
 				if filesList then
@@ -29,7 +30,6 @@ function getFilesData()
 					return out
 				end
 		end
-		filesData.close()
 	end
 	return nil
 end
