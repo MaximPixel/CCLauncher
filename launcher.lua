@@ -1,6 +1,6 @@
 local VERSION_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/version.txt"
 local LAUNCHER_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/launcher.lua"
-local CURRENT_VERSION = 9
+local CURRENT_VERSION = 10
 
 data = http.get(VERSION_DIR)
 

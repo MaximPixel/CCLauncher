@@ -1,13 +1,21 @@
 {
 	version = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/version.txt",
 	files = {
-		{
-			file = "launcher.lua",
-			link = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/",
+		main = {
+			{
+				path = "launcher.lua",
+				link = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/launcher.lua",
+			},
+			{
+				path = "installer.lua",
+				link = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/installer.lua",
+			},
 		},
-		{
-			file = "installer.lua",
-			link = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/",
+		turtle = {
+			{
+				path = "turtleengine.lua",
+				link = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/turtleengine.lua",
+			},
 		},
 	},
 }

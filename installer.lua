@@ -1,5 +1,18 @@
 local FILES_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/files.xml"
 
+function readVersion(dir)
+	versionData = http.get(dir)
+	if versionData then
+		data = versionData.readAll()
+		version = tonumber(data)
+		if version then
+			return version
+		end
+		versionData.close()
+	end
+	return nil
+end
+
 function getFilesData()
 	filesData = http.get(FILES_DIR)
 	
@@ -16,6 +29,7 @@ function getFilesData()
 					return out
 				end
 		end
+		filesData.close()
 	end
 	return nil
 end
