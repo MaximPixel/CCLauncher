@@ -1,28 +1,35 @@
 local VERSION_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/version.txt"
 local LAUNCHER_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/launcher.lua"
-local CURRENT_VERSION = 11
+local CURRENT_VERSION = 12
 
 data = http.get(VERSION_DIR)
 
-function drawButton(self)
-	term.setCursorPos(self.x, self.y)
-	if self.text then
-		term.write(self.text)
-	else
-		--TODO
+Button = {}
+
+function Button:new(x, y, w, h, text)
+	local obj = {}
+	obj.x = x
+	obj.y = y
+	obj.w = w
+	obj.h = h
+	obj.text = text
+	
+	function obj:draw()
+		term.setCursorPos(self.x, self.y)
+		if self.text then
+			term.write(self.text)
+		else
+			--TODO
+		end
 	end
-end
-
-function createButton(x, y, w, h)
-	newBtn = {x = x, y = y, w = w, h = h}
-	newBtn.draw = drawButton
-	return newBtn
-end
-
-function createButtonText(x, y, text)
-	newBtn = createButton(x, y, #text, 1)
-	newBtn.text = text
-	return newBtn
+	
+	function obj:isinside(x, y)
+		return x >= self.x and y >= self.y and x < self.x + self.w and y < self.y + self.h
+	end
+	
+	setmetatable(obj, self)
+	self.__index = self;
+	return obj
 end
 
 function getLatestVersion()
@@ -73,13 +80,13 @@ function clearAll()
 	term.setCursorPos(1, 1)
 end
 
-but = createButtonText(2, 2, "Update")
+but = Button:new(2, 2, 6, 1, "Update")
 
 function gui()
 	clearAll()
 	
 	cc(colors.black, colors.white)
-	but.draw()
+	but:draw()
 end
 
 run = true
@@ -94,7 +101,7 @@ while run do
 	
 	local e, k = os.pullEvent()
 	
-	if e = "key" then
+	if e == "key" then
 		if k == keys.q then
 			run = false
 		end
