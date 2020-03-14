@@ -28,7 +28,7 @@ function reinstallAll()
 			
 			if filesTable and type(filesTable.files) == "table" and type(filesTable.version) == "string" then
 				if filesTable.files.main then
-					for -,i in ipairs(filesTable.files.main) do
+					for _,i in ipairs(filesTable.files.main) do
 						flag = downloadFile(i.link, i.path)
 						if flag then
 							print("intalled " .. i.path)
@@ -38,7 +38,7 @@ function reinstallAll()
 					end
 				end
 				if turtle and filesTable.files.turtle then
-					for -,i in ipairs(filesTable.files.turtle) do
+					for _,i in ipairs(filesTable.files.turtle) do
 						flag = downloadFile(i.link, i.path)
 						if flag then
 							print("intalled " .. i.path)
@@ -47,6 +47,7 @@ function reinstallAll()
 						end
 					end
 				end
+				return true
 			end
 			
 			return false, "Unknown format"

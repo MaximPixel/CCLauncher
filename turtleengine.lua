@@ -1,5 +1,7 @@
 local PROG_FILE_NAME = "prog.txt"
 
+local tArgs = { ... }
+
 function tokenise(str)
 	local sLine = table.concat( { str }, " " )
 	local tWords = {}
@@ -227,7 +229,22 @@ function parseAction(action)
 	return false, "Not exist action \"" .. args[1] .. "\""
 end
 
-readScript("turtlescript.ts")
+scriptPath = nil
+
+if tArgs and tArgs[1] then
+	scriptPath = tArgs[1]
+end
+
+if scriptPath == nil then
+	print("What script path?")
+	sciprtPath = read()
+end
+
+if scriptPath == nil or #scriptPath == 0 then
+	return
+end
+
+readScript(scriptPaths)
 
 prog = readProgress()
 
