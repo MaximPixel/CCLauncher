@@ -85,6 +85,7 @@ function clearAll()
 end
 
 newVersionExist = false
+latestVersion = CURRENT_VERSION
 
 function checkLatestVersion()
 	latestVersion = getLatestVersion()
@@ -107,9 +108,13 @@ function gui()
 	cc(colors.white, colors.black)
 	term.setCursorPos(2, 4)
 	term.write("Or press E to update")
+	term.setCursorPos(2, 5)
+	term.write("Press Q to exit")
+	
+	term.setCursorPos(1, 6)
+	term.write("Latest version: " .. latestVersion)
 	
 	if newVersionExist then
-		cc(colors.white, colors.black)
 		term.setCursorPos(1, 0)
 		term.write("New version available!")
 	end
