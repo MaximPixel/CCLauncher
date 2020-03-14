@@ -1,8 +1,48 @@
 local VERSION_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/version.txt"
 local LAUNCHER_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/launcher.lua"
-local CURRENT_VERSION = 12
+local INSTALLER_DIR = "https://raw.githubusercontent.com/MaximPixel/CCLauncher/master/installer.lua"
+local CURRENT_VERSION = 13
 
-data = http.get(VERSION_DIR)
+tArgs = { ... }
+
+mode = 0
+
+function downloadInstaller()
+	data = http.get(INSTALLER_DIR)
+	
+	if data then
+		text = data.readAll()
+		data.close()
+		if text then
+			file = fs.open("installer.lua", "w")
+			file.write(text)
+			file.close()
+			return true
+		end
+	end
+	return false
+end
+
+if tArgs[1] then
+	if tArgs[1] == "gui" then
+		mode = 1
+	elseif tArgs[1] == "installer" then
+		mode = 2
+	end
+end
+
+if mode == 2 then
+	print("Install installer? [y/n]")
+	answer = read()
+	if answer == "y" or answer == "Y" then
+		downloadInstaller()
+		print("Installed!");
+	end
+end
+
+if mode ~= 1 then
+	return
+end
 
 Button = {}
 
@@ -63,14 +103,10 @@ function downloadLatest()
 			file.write(text)
 			file.close()
 			print("Updated!")
+			return true
 		end
-		data.close()
 	end
 	return false
-end
-
-function updateLauncher()
-	
 end
 
 function cc(c1, c2)
@@ -87,16 +123,12 @@ end
 newVersionExist = false
 latestVersion = CURRENT_VERSION
 
-function checkLatestVersion()
+function updateLatestVersion()
 	latestVersion = getLatestVersion()
-			
-	if latestVersion >= 0 then
-		newVersionExist = latestVersion > CURRENT_VERSION
-	end
 end
 
 function gui()
-	checkLatestVersion()
+	updateLatestVersion()
 	
 	clearAll()
 	
@@ -113,9 +145,11 @@ function gui()
 	
 	term.setCursorPos(1, 6)
 	term.write("Latest version: " .. latestVersion)
+	term.setCursorPos(1, 7)
+	term.write("Current version: " .. CURRENT_VERSION)
 	
-	if newVersionExist then
-		term.setCursorPos(1, 0)
+	if CURRENT_VERSION < latestVersion then
+		term.setCursorPos(1, 1)
 		term.write("New version available!")
 	end
 end

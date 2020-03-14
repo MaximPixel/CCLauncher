@@ -192,7 +192,7 @@ function parseAction(action)
 		
 		if itemIndex >= 1 and itemIndex <= 16 then
 			turtle.select(itemIndex)
-			turtle.place()
+			return turtle.place()
 		end
 		
 		return false, "Item \"" .. args[2] .. "\" not found"
@@ -205,7 +205,7 @@ function parseAction(action)
 		
 		if itemIndex >= 1 and itemIndex <= 16 then
 			turtle.select(itemIndex)
-			turtle.placeUp()
+			return turtle.placeUp()
 		end
 		
 		return false, "Item \"" .. args[2] .. "\" not found"
@@ -218,7 +218,7 @@ function parseAction(action)
 		
 		if itemIndex >= 1 and itemIndex <= 16 then
 			turtle.select(itemIndex)
-			turtle.placeDown()
+			return turtle.placeDown()
 		end
 		
 		return false, "Item \"" .. args[2] .. "\" not found"
