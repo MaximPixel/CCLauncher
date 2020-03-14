@@ -77,6 +77,22 @@ function deleteProgress()
 	print("Progress deleted")
 end
 
+function findItem(itemName)
+	det = turtle.getItemDetail()
+	if det and det.name == itemName then
+		return turtle.getSelectedSlot()
+	end
+	for i = 1, 16 do
+		if not i == turtle.getSelectedSlot() then
+			det = turtle.getItemDetail()
+			if det and det.name == itemName then
+				return i
+			end
+		end
+	end
+	return -1
+end
+
 function parseAction(action)
 	if not action then
 		return false, "Action is nil"
@@ -167,6 +183,45 @@ function parseAction(action)
 		end
 		autoRefuel = false
 		return true
+	elseif args[1] == "place" and args[2] then
+		if not turtle then
+			return false, "Not turtle"
+		end
+		
+		itemIndex = findItem()
+		
+		if itemIndex >= 1 and itemIndex <= 16 then
+			turtle.select(itemIndex)
+			turtle.place()
+		end
+		
+		return false, "Item \"" .. args[2] .. "\" not found"
+	elseif args[1] == "placeu" and args[2] then
+		if not turtle then
+			return false, "Not turtle"
+		end
+		
+		itemIndex = findItem()
+		
+		if itemIndex >= 1 and itemIndex <= 16 then
+			turtle.select(itemIndex)
+			turtle.placeUp()
+		end
+		
+		return false, "Item \"" .. args[2] .. "\" not found"
+	elseif args[1] == "placed" and args[2] then
+		if not turtle then
+			return false, "Not turtle"
+		end
+		
+		itemIndex = findItem()
+		
+		if itemIndex >= 1 and itemIndex <= 16 then
+			turtle.select(itemIndex)
+			turtle.placeDown()
+		end
+		
+		return false, "Item \"" .. args[2] .. "\" not found"
 	end
 
 	return false, "Not exist action \"" .. args[1] .. "\""

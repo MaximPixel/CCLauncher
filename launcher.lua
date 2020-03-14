@@ -6,12 +6,12 @@ data = http.get(VERSION_DIR)
 
 Button = {}
 
-function Button:new(x, y, w, h, text)
+function Button:new(x, y, text)
 	local obj = {}
 	obj.x = x
 	obj.y = y
-	obj.w = w
-	obj.h = h
+	obj.w = #text
+	obj.h = 1
 	obj.text = text
 	
 	function obj:draw()
@@ -69,6 +69,10 @@ function downloadLatest()
 	return false
 end
 
+function updateLauncher()
+	
+end
+
 function cc(c1, c2)
 	term.setTextColor(c1)
 	term.setBackgroundColor(c2)
@@ -80,13 +84,35 @@ function clearAll()
 	term.setCursorPos(1, 1)
 end
 
-but = Button:new(2, 2, 6, 1, "Update")
+newVersionExist = false
+
+function checkLatestVersion()
+	latestVersion = getLatestVersion()
+			
+	if latestVersion >= 0 then
+		newVersionExist = latestVersion > CURRENT_VERSION
+	end
+end
 
 function gui()
+	checkLatestVersion()
+	
 	clearAll()
+	
+	but = Button:new(2, 2, "Update")
 	
 	cc(colors.black, colors.white)
 	but:draw()
+	
+	cc(colors.white, colors.black)
+	term.setCursorPos(2, 4)
+	term.write("Or press E to update")
+	
+	if newVersionExist then
+		cc(colors.white, colors.black)
+		term.setCursorPos(1, 0)
+		term.write("New version available!")
+	end
 end
 
 run = true
