@@ -19,23 +19,27 @@ function tokenise(str)
 	return tWords
 end
 
-lines = {}
+scriptLines = {}
 
 autoRefuel = false
 
 loop = 0
 
 function readScript(fileName)
-	file = fs.open(fileName, "r")
-
-	line = file.readLine()
-
-	while line do
-		table.insert(lines, line)
-		line = file.readLine()
+	if fileName == nil then
+		return false
 	end
+	file = fs.open(fileName, "r")
+	if file then
+		line = file.readLine()
 
-	file.close()
+		while line do
+			table.insert(scriptLines, line)
+			line = file.readLine()
+		end
+		
+		file.close()
+	end
 end
 
 function saveProgress(action, loop)
@@ -80,16 +84,10 @@ function deleteProgress()
 end
 
 function findItem(itemName)
-	det = turtle.getItemDetail()
-	if det and det.name == itemName then
-		return turtle.getSelectedSlot()
-	end
 	for i = 1, 16 do
-		if not i == turtle.getSelectedSlot() then
-			det = turtle.getItemDetail()
-			if det and det.name == itemName then
-				return i
-			end
+		det = turtle.getItemDetail(i)
+		if det and det.name == itemName then
+			return i
 		end
 	end
 	return -1
@@ -153,12 +151,12 @@ function parseAction(action)
 			return false, "Not turtle"
 		end
 		return turtle.back()
-	elseif args[1] == "turnLeft" then
+	elseif args[1] == "turnLeft" or args[1] == "left" then
 		if not turtle then
 			return false, "Not turtle"
 		end
 		return turtle.turnLeft()
-	elseif args[1] == "turnRight" then
+	elseif args[1] == "turnRight" or args[1] == "right" then
 		if not turtle then
 			return false, "Not turtle"
 		end
@@ -190,7 +188,7 @@ function parseAction(action)
 			return false, "Not turtle"
 		end
 		
-		itemIndex = findItem()
+		itemIndex = findItem(args[2])
 		
 		if itemIndex >= 1 and itemIndex <= 16 then
 			turtle.select(itemIndex)
@@ -203,7 +201,7 @@ function parseAction(action)
 			return false, "Not turtle"
 		end
 		
-		itemIndex = findItem()
+		itemIndex = findItem(args[2])
 		
 		if itemIndex >= 1 and itemIndex <= 16 then
 			turtle.select(itemIndex)
@@ -216,7 +214,7 @@ function parseAction(action)
 			return false, "Not turtle"
 		end
 		
-		itemIndex = findItem()
+		itemIndex = findItem(args[2])
 		
 		if itemIndex >= 1 and itemIndex <= 16 then
 			turtle.select(itemIndex)
@@ -240,11 +238,16 @@ if scriptPath == nil then
 	sciprtPath = read()
 end
 
+print(scriptPath)
+
 if scriptPath == nil or #scriptPath == 0 then
+	print("goodbye")
 	return
 end
 
-readScript(scriptPaths)
+readScript(scriptPath)
+
+print(#scriptLines)
 
 prog = readProgress()
 
@@ -261,8 +264,8 @@ end
 
 print("Last progress: " .. action .. " " .. loop)
 
-while run and action <= #lines do
-	line = lines[action]
+while run and action <= #scriptLines do
+	line = scriptLines[action]
 
 	flag, err = parseAction(line)
 
@@ -282,7 +285,7 @@ while run and action <= #lines do
 	end
 end
 
-if action > #lines then
+if action > #scriptLines then
 	print("Script comleted!")
 	deleteProgress()
 end
